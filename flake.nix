@@ -33,6 +33,7 @@
             {
               languages = {
                 nix.enable = true;
+                ruby.enable = true;
               };
 
               packages = [

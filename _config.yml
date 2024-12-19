@@ -1,3 +1,10 @@
+title: ~/veselin
+email: me@veselyn.com
+description: >-
+  Veselin Ivanov's personal website
+baseurl: /
+url: https://veselyn.com
+
 exclude:
   - /.devenv/
   - /.direnv/

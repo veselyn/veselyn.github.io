@@ -12,6 +12,10 @@
     flake-parts.lib.mkFlake {inherit inputs;} ({self, ...}: {
       systems = ["aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux"];
 
+      imports = [
+        ./dev/prettier-plugin-liquid
+      ];
+
       perSystem = {
         config,
         pkgs,
@@ -23,6 +27,16 @@
 
           programs = {
             alejandra.enable = true;
+            prettier = {
+              enable = true;
+              settings.overrides = [
+                {
+                  files = "*.html";
+                  options.parser = "liquid-html";
+                }
+              ];
+              settings.plugins = [self'.packages.prettier-plugin-liquid.indexJs];
+            };
           };
         };
       in {

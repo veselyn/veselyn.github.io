@@ -8,7 +8,8 @@ url: https://veselyn.com
 exclude:
   - /.devenv/
   - /.direnv/
-  - Gemfile
-  - Gemfile.lock
-  - flake.lock
-  - flake.nix
+  - /Gemfile
+  - /Gemfile.lock
+  - /dev/
+  - /flake.lock
+  - /flake.nix

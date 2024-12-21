@@ -22,6 +22,15 @@
         self',
         ...
       }: let
+        gems = pkgs.bundlerEnv {
+          name = "veselyn.github.io";
+          gemdir = builtins.path {
+            name = "veselyn.github.io";
+            path = ./.;
+          };
+        };
+        ruby = pkgs.ruby // gems.wrappedRuby;
+
         treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs {
           projectRootFile = "flake.nix";
 
@@ -45,12 +54,18 @@
 
           modules = [
             {
+              env = {
+                BUNDLE_FORCE_RUBY_PLATFORM = true;
+              };
+
               languages = {
                 nix.enable = true;
                 ruby.enable = true;
+                ruby.package = ruby;
               };
 
               packages = [
+                gems
                 self'.formatter
               ];
 

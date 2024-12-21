@@ -6,3 +6,4 @@ exclude:
   - /dev/
   - /flake.lock
   - /flake.nix
+  - /gemset.nix

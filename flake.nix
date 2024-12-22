@@ -22,14 +22,15 @@
         self',
         ...
       }: let
+        name = "veselyn.github.io";
+
         gems = pkgs.bundlerEnv {
-          name = "veselyn.github.io";
+          inherit name;
           gemdir = builtins.path {
-            name = "veselyn.github.io";
+            inherit name;
             path = ./.;
           };
         };
-        ruby = pkgs.ruby // gems.wrappedRuby;
 
         treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs {
           projectRootFile = "flake.nix";
@@ -56,16 +57,16 @@
             {
               env = {
                 BUNDLE_FORCE_RUBY_PLATFORM = true;
+                LANG = "en_US.UTF-8";
               };
 
               languages = {
                 nix.enable = true;
-                ruby.enable = true;
-                ruby.package = ruby;
               };
 
               packages = [
                 gems
+                pkgs.git
                 self'.formatter
               ];
 
@@ -75,6 +76,10 @@
                 treefmt.enable = true;
                 treefmt.package = self'.formatter;
               };
+
+              processes = {
+                site.exec = "jekyll serve";
+              };
             }
           ];
         };
@@ -82,6 +87,19 @@
         packages = {
           devenv-test = self'.devShells.default.config.test;
           devenv-up = self'.devShells.default.config.procfileScript;
+
+          build-site = pkgs.writeShellApplication {
+            name = "build-site";
+            runtimeInputs = [
+              gems
+              pkgs.git
+            ];
+            runtimeEnv = {
+              BUNDLE_FORCE_RUBY_PLATFORM = true;
+              LANG = "en_US.UTF-8";
+            };
+            text = "jekyll build";
+          };
         };
 
         formatter = treefmtEval.config.build.wrapper;

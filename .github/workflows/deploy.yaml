@@ -25,6 +25,9 @@ jobs:
       - name: Install Nix
         uses: ./.github/actions/nix
 
+      - name: Build site
+        run: nix shell -i .#build-site -c build-site
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 

@@ -32,6 +32,14 @@
           };
         };
 
+        env = {
+          BUNDLE_FORCE_RUBY_PLATFORM = true;
+          LANG =
+            if pkgs.stdenv.isDarwin
+            then "en_US.UTF-8"
+            else "C.UTF-8";
+        };
+
         treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs {
           projectRootFile = "flake.nix";
 
@@ -56,8 +64,7 @@
           modules = [
             {
               env = {
-                BUNDLE_FORCE_RUBY_PLATFORM = true;
-                LANG = "en_US.UTF-8";
+                inherit (env) BUNDLE_FORCE_RUBY_PLATFORM LANG;
               };
 
               languages = {
@@ -95,8 +102,7 @@
               pkgs.git
             ];
             runtimeEnv = {
-              BUNDLE_FORCE_RUBY_PLATFORM = true;
-              LANG = "en_US.UTF-8";
+              inherit (env) BUNDLE_FORCE_RUBY_PLATFORM LANG;
             };
             text = "jekyll build";
           };

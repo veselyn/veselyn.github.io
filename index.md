@@ -5,7 +5,13 @@
 layout: home
 ---
 
-# Veselin Ivanov
+<div class="terminal-logo">
+    <div class="logo terminal-prompt">
+        <a href="#" class="no-style">
+            Veselin Ivanov
+        </a>
+    </div>
+</div>
 
 Hi!
 

@@ -56,6 +56,10 @@
               settings.plugins = [self'.packages.prettier-plugin-liquid.indexJs];
             };
           };
+
+          settings.global.excludes = [
+            "_sass/terminal.scss"
+          ];
         };
       in {
         devShells.default = inputs.devenv.lib.mkShell {

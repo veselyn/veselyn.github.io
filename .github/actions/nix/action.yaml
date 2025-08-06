@@ -4,9 +4,9 @@ runs:
   using: composite
   steps:
     - name: Install Nix
-      uses: nixbuild/nix-quick-install-action@v29
+      uses: nixbuild/nix-quick-install-action@v32
     - name: Cache Nix store
-      uses: nix-community/cache-nix-action@v5
+      uses: nix-community/cache-nix-action@v6
       with:
         primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix') }}
         restore-prefixes-first-match: nix-${{ runner.os }}-

@@ -34,10 +34,6 @@
 
         env = {
           BUNDLE_FORCE_RUBY_PLATFORM = true;
-          LANG =
-            if pkgs.stdenv.isDarwin
-            then "en_US.UTF-8"
-            else "C.UTF-8";
         };
 
         treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs {
@@ -68,7 +64,7 @@
           modules = [
             {
               env = {
-                inherit (env) BUNDLE_FORCE_RUBY_PLATFORM LANG;
+                inherit (env) BUNDLE_FORCE_RUBY_PLATFORM;
               };
 
               languages = {
@@ -91,25 +87,43 @@
               processes = {
                 site.exec = "jekyll serve";
               };
+
+              scripts = {
+                build-site.exec = "jekyll build";
+              };
             }
           ];
         };
 
-        packages = {
+        packages = let
+          site = pkgs.stdenv.mkDerivation {
+            name = "site";
+
+            src = builtins.path {
+              name = "site";
+              path = ./.;
+            };
+
+            inherit (env) BUNDLE_FORCE_RUBY_PLATFORM;
+            JEKYLL_BUILD_REVISION = self.rev or "dirty";
+
+            buildInputs = [gems];
+
+            buildPhase = ''
+              jekyll build
+            '';
+
+            installPhase = ''
+              mkdir -p "$out"
+              cp -r _site/. "$out"
+            '';
+          };
+        in {
           devenv-test = self'.devShells.default.config.test;
           devenv-up = self'.devShells.default.config.procfileScript;
 
-          build-site = pkgs.writeShellApplication {
-            name = "build-site";
-            runtimeInputs = [
-              gems
-              pkgs.git
-            ];
-            runtimeEnv = {
-              inherit (env) BUNDLE_FORCE_RUBY_PLATFORM LANG;
-            };
-            text = "jekyll build";
-          };
+          default = site;
+          inherit site;
         };
 
         formatter = treefmtEval.config.build.wrapper;

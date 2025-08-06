@@ -110,7 +110,10 @@
             JEKYLL_ENV = "production";
             PAGES_REPO_NWO = "veselyn/veselyn.github.io";
 
-            nativeBuildInputs = [gems];
+            nativeBuildInputs = [
+              pkgs.cacert
+              gems
+            ];
 
             buildPhase = ''
               jekyll build

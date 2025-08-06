@@ -26,10 +26,12 @@ jobs:
         uses: ./.github/actions/nix
 
       - name: Build site
-        run: nix shell -i .#build-site -c build-site
+        run: nix build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: result
 
   # Deployment job
   deploy:

@@ -106,6 +106,7 @@
 
             inherit (env) BUNDLE_FORCE_RUBY_PLATFORM;
             JEKYLL_BUILD_REVISION = self.rev or "dirty";
+            JEKYLL_ENV = "production";
 
             buildInputs = [gems];
 

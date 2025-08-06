@@ -26,7 +26,7 @@ jobs:
         uses: ./.github/actions/nix
 
       - name: Build site
-        run: nix build
+        run: nix build --option sandbox false
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

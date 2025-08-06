@@ -90,46 +90,31 @@
               };
 
               scripts = {
-                build-site.exec = "jekyll build";
+                build-site.exec = "JEKYLL_ENV=development jekyll build";
               };
             }
           ];
         };
 
-        packages = let
-          site = pkgs.stdenv.mkDerivation {
-            name = "site";
-
-            src = builtins.path {
-              name = "site";
-              path = ./.;
-            };
-
-            inherit (env) BUNDLE_FORCE_RUBY_PLATFORM;
-            JEKYLL_BUILD_REVISION = self.rev or "dirty";
-            JEKYLL_ENV = "production";
-            PAGES_REPO_NWO = "veselyn/veselyn.github.io";
-
-            nativeBuildInputs = [
-              pkgs.cacert
-              gems
-            ];
-
-            buildPhase = ''
-              jekyll build
-            '';
-
-            installPhase = ''
-              mkdir -p "$out"
-              cp -r _site/. "$out"
-            '';
-          };
-        in {
+        packages = {
           devenv-test = self'.devShells.default.config.test;
           devenv-up = self'.devShells.default.config.procfileScript;
+        };
 
-          default = site;
-          inherit site;
+        apps = {
+          build-site = {
+            type = "app";
+            program = pkgs.writeShellApplication {
+              name = "build-site";
+              runtimeInputs = [gems];
+              text = ''
+                export JEKYLL_ENV=production
+                export JEKYLL_GITHUB_TOKEN=$GITHUB_TOKEN
+                export PAGES_REPO_NWO=$GITHUB_REPOSITORY
+                jekyll build
+              '';
+            };
+          };
         };
 
         formatter = treefmtEval.config.build.wrapper;

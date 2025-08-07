@@ -96,11 +96,6 @@
           ];
         };
 
-        packages = {
-          devenv-test = self'.devShells.default.config.test;
-          devenv-up = self'.devShells.default.config.procfileScript;
-        };
-
         apps = {
           build-site = {
             type = "app";
@@ -115,6 +110,11 @@
               '';
             };
           };
+        };
+
+        packages = {
+          devenv-test = self'.devShells.default.config.test;
+          devenv-up = self'.devShells.default.config.procfileScript;
         };
 
         formatter = treefmtEval.config.build.wrapper;

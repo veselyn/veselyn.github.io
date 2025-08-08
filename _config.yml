@@ -1,3 +1,9 @@
+title: Veselin Ivanov
+tagline: Software Engineer
+description: >-
+  I'm a software engineer based in Copenhagen, Denmark. I specialize in platform
+  engineering but I'm comfortable working across the stack.
+
 exclude:
   - /.devenv/
   - /.direnv/

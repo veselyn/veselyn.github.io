@@ -24,3 +24,11 @@ with more confidence.
 
 Having worked across the stack, I understand what engineers need: simplicity,
 fast feedback loops, and smooth developer workflows.
+
+You can find me on [GitHub][github], [LinkedIn][linkedin], and
+[Twitter][twitter], or reach me directly at [me@veselyn.com][email].
+
+[github]: https://github.com/veselyn
+[linkedin]: https://linkedin.com/in/veselyn
+[twitter]: https://twitter.com/veselyni
+[email]: mailto:me@veselyn.com
